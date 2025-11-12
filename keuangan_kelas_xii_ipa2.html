@@ -1,0 +1,722 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Keuangan Kelas XII IPA 2</title>
+  <style>
+    :root{
+      --bg:#f6fbff;
+      --light-blue:#e6f7ff;
+      --primary:#2e86de;
+      --primary-600:#1f6fb8;
+      --muted:#6b7280;
+      --card:#ffffff;
+      --success:#16a34a;
+      --danger:#ef4444;
+      --shadow:0 6px 18px rgba(46,134,222,0.08);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,var(--bg),#ffffff);
+      color:#0f172a;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:20px;
+    }
+    .container{
+      max-width:1100px;
+      margin:0 auto;
+    }
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:18px;
+    }
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .logo{
+      width:56px;
+      height:56px;
+      border-radius:8px;
+      background:linear-gradient(135deg,var(--light-blue),#d7f0ff);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:var(--primary-600);
+      font-weight:700;
+      font-size:18px;
+      box-shadow:var(--shadow);
+    }
+    h1{
+      margin:0;
+      font-size:18px;
+      color:var(--primary-600);
+    }
+    .sub{
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 360px;
+      gap:18px;
+      align-items:start;
+    }
+
+    .card{
+      background:var(--card);
+      border-radius:12px;
+      padding:14px;
+      box-shadow:var(--shadow);
+    }
+
+    /* Dashboard */
+    .dashboard{
+      display:flex;
+      gap:12px;
+      align-items:stretch;
+      margin-bottom:12px;
+    }
+    .stat{
+      flex:1;
+      padding:12px;
+      border-radius:10px;
+      background:linear-gradient(180deg,#ffffff, var(--light-blue));
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .stat .label{font-size:13px;color:var(--muted)}
+    .stat .value{font-size:20px;font-weight:700;color:var(--primary-600)}
+
+    /* Left column content */
+    .left {
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    form.row{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:10px;
+      align-items:end;
+    }
+    form .full{grid-column:1/-1}
+    label{font-size:13px;color:var(--muted);display:block;margin-bottom:6px}
+    input[type="text"], input[type="date"], input[type="number"], select, textarea{
+      width:100%;
+      padding:9px 10px;
+      border-radius:8px;
+      border:1px solid #e6eef8;
+      background:#fff;
+      font-size:14px;
+    }
+    button, .btn{
+      padding:9px 12px;
+      border-radius:8px;
+      border:0;
+      cursor:pointer;
+      background:var(--primary);
+      color:#fff;
+      font-weight:600;
+    }
+    .btn.secondary{
+      background:#ffffff;
+      color:var(--primary-600);
+      border:1px solid #d6e9ff;
+    }
+    .btn.danger{
+      background:var(--danger);
+    }
+    .muted-small{font-size:12px;color:var(--muted)}
+
+    /* Table */
+    .table-wrap{overflow:auto}
+    table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:14px;
+    }
+    th, td{
+      text-align:left;
+      padding:10px 8px;
+      border-bottom:1px solid #f2f6fb;
+    }
+    th{font-size:13px;color:var(--muted)}
+    tr:hover td{background:#fbfdff}
+
+    .actions button{
+      margin-right:6px;
+      padding:6px 8px;
+      font-size:13px;
+    }
+
+    /* Right column - Students */
+    .students-list{display:flex;flex-direction:column;gap:10px}
+    .student{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      padding:10px;
+      border-radius:8px;
+      background:linear-gradient(180deg,#fff,#f8feff);
+      align-items:center;
+    }
+    .student .info{flex:1}
+    .student .name{font-weight:700;color:var(--primary-600)}
+    .student .detail{font-size:13px;color:var(--muted)}
+
+    .footer-actions{display:flex;gap:8px;align-items:center;justify-content:flex-end;margin-top:8px}
+
+    /* Responsive */
+    @media (max-width:900px){
+      .grid{grid-template-columns:1fr}
+      header{flex-direction:column;align-items:flex-start;gap:8px}
+      .dashboard{flex-direction:column}
+      .students-list{grid-auto-rows:auto}
+    }
+
+    /* small helpers */
+    .right-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+    .no-data{padding:14px;text-align:center;color:var(--muted);background:#fbfdff;border-radius:8px}
+    .chip{
+      padding:6px 8px;border-radius:999px;font-weight:700;font-size:13px;background:#fff;border:1px solid #def0ff;color:var(--primary-600)
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">XII</div>
+        <div>
+          <h1>Keuangan Kelas XII IPA 2</h1>
+          <div class="sub">Aplikasi sederhana untuk bendahara kelas — data disimpan di browser</div>
+        </div>
+      </div>
+      <div class="chip" id="last-saved">Tidak ada penyimpanan</div>
+    </header>
+
+    <section class="dashboard">
+      <div class="stat card">
+        <div class="label">Saldo Kas</div>
+        <div class="value" id="saldo">Rp 0</div>
+        <div class="muted-small">Saldo bersih (pemasukan - pengeluaran)</div>
+      </div>
+      <div class="stat card">
+        <div class="label">Total Pemasukan</div>
+        <div class="value" id="total-pemasukan">Rp 0</div>
+        <div class="muted-small">Jumlah semua transaksi pemasukan</div>
+      </div>
+      <div class="stat card">
+        <div class="label">Total Pengeluaran</div>
+        <div class="value" id="total-pengeluaran">Rp 0</div>
+        <div class="muted-small">Jumlah semua transaksi pengeluaran</div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <div class="left">
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <strong>Tambah Transaksi</strong>
+            <div class="muted-small">Transaksi tersimpan otomatis</div>
+          </div>
+
+          <form id="form-transaction" class="row">
+            <div>
+              <label for="tx-date">Tanggal</label>
+              <input type="date" id="tx-date" required />
+            </div>
+            <div>
+              <label for="tx-type">Tipe</label>
+              <select id="tx-type" required>
+                <option value="pemasukan">Pemasukan</option>
+                <option value="pengeluaran">Pengeluaran</option>
+              </select>
+            </div>
+
+            <div class="full">
+              <label for="tx-desc">Keterangan</label>
+              <input type="text" id="tx-desc" placeholder="Contoh: Iuran bulan Agustus / Membeli alat tulis" required />
+            </div>
+
+            <div>
+              <label for="tx-amount">Jumlah (Rp)</label>
+              <input type="number" id="tx-amount" min="1" step="1000" placeholder="10000" required />
+            </div>
+
+            <div>
+              <label>&nbsp;</label>
+              <div style="display:flex;gap:8px">
+                <button type="submit" class="btn">Simpan Transaksi</button>
+                <button type="button" id="btn-reset-form" class="btn secondary">Reset</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <strong>Daftar Transaksi</strong>
+            <div class="muted-small">Urut terbaru di atas</div>
+          </div>
+
+          <div class="table-wrap" id="transactions-wrap">
+            <table id="transactions-table">
+              <thead>
+                <tr>
+                  <th style="width:120px">Tanggal</th>
+                  <th>Keterangan</th>
+                  <th style="width:110px">Tipe</th>
+                  <th style="width:130px">Jumlah</th>
+                  <th style="width:110px">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="transactions-body">
+                <!-- rows -->
+              </tbody>
+            </table>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+            <div class="muted-small">Total transaksi: <span id="tx-count">0</span></div>
+            <div>
+              <button id="btn-export" class="btn secondary">Export JSON</button>
+              <button id="btn-clear" class="btn danger">Hapus Semua</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="card">
+        <div class="right-title">
+          <strong>Data Siswa & Iuran</strong>
+          <div class="muted-small">Atur pembayaran iuran per siswa</div>
+        </div>
+
+        <div style="margin-bottom:10px">
+          <form id="form-student" style="display:grid;gap:8px">
+            <input type="text" id="student-name" placeholder="Nama siswa (contoh: Andi)" required />
+            <div style="display:flex;gap:8px">
+              <input type="number" id="student-due" placeholder="Jumlah iuran (Rp)" min="0" step="1000" required />
+              <button type="submit" class="btn">Tambah Siswa</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="students-list" id="students-list">
+          <!-- siswa -->
+        </div>
+
+        <div class="footer-actions">
+          <button id="btn-export-students" class="btn secondary">Export Siswa</button>
+          <button id="btn-reset-students" class="btn danger">Reset Siswa</button>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    // Simple Keuangan Kelas - LocalStorage based
+    (function(){
+      const LS_KEYS = {
+        TRANSACTIONS: 'kk_xiiipa2_transactions',
+        STUDENTS: 'kk_xiiipa2_students',
+        LAST_SAVED: 'kk_xiiipa2_last_saved'
+      };
+
+      // Elements
+      const el = {
+        saldo: document.getElementById('saldo'),
+        totalPemasukan: document.getElementById('total-pemasukan'),
+        totalPengeluaran: document.getElementById('total-pengeluaran'),
+        lastSaved: document.getElementById('last-saved'),
+
+        formTx: document.getElementById('form-transaction'),
+        txDate: document.getElementById('tx-date'),
+        txType: document.getElementById('tx-type'),
+        txDesc: document.getElementById('tx-desc'),
+        txAmount: document.getElementById('tx-amount'),
+        txBody: document.getElementById('transactions-body'),
+        txCount: document.getElementById('tx-count'),
+        btnResetForm: document.getElementById('btn-reset-form'),
+        btnClear: document.getElementById('btn-clear'),
+        btnExport: document.getElementById('btn-export'),
+
+        formStudent: document.getElementById('form-student'),
+        studentName: document.getElementById('student-name'),
+        studentDue: document.getElementById('student-due'),
+        studentsList: document.getElementById('students-list'),
+        btnExportStudents: document.getElementById('btn-export-students'),
+        btnResetStudents: document.getElementById('btn-reset-students')
+      };
+
+      // Data
+      let transactions = [];
+      let students = [];
+
+      // Utilities
+      function saveAll(){
+        localStorage.setItem(LS_KEYS.TRANSACTIONS, JSON.stringify(transactions));
+        localStorage.setItem(LS_KEYS.STUDENTS, JSON.stringify(students));
+        const t = new Date().toISOString();
+        localStorage.setItem(LS_KEYS.LAST_SAVED, t);
+        el.lastSaved.textContent = 'Tersimpan: ' + (new Date(t)).toLocaleString();
+      }
+      function loadAll(){
+        try{
+          transactions = JSON.parse(localStorage.getItem(LS_KEYS.TRANSACTIONS)) || [];
+        }catch(e){ transactions = [] }
+        try{
+          students = JSON.parse(localStorage.getItem(LS_KEYS.STUDENTS)) || [];
+        }catch(e){ students = [] }
+
+        const last = localStorage.getItem(LS_KEYS.LAST_SAVED);
+        el.lastSaved.textContent = last ? 'Tersimpan: ' + (new Date(last)).toLocaleString() : 'Belum tersimpan';
+      }
+      function id(){ return 'id_' + Math.random().toString(36).slice(2,9); }
+      function formatRp(num){
+        return 'Rp ' + Number(num || 0).toLocaleString('id-ID');
+      }
+
+      // Render functions
+      function renderSummary(){
+        const totalIn = transactions
+          .filter(t => t.type === 'pemasukan')
+          .reduce((s,t)=>s + Number(t.amount), 0);
+        const totalOut = transactions
+          .filter(t => t.type === 'pengeluaran')
+          .reduce((s,t)=>s + Number(t.amount), 0);
+        const saldo = totalIn - totalOut;
+        el.totalPemasukan.textContent = formatRp(totalIn);
+        el.totalPengeluaran.textContent = formatRp(totalOut);
+        el.saldo.textContent = formatRp(saldo);
+      }
+
+      function renderTransactions(){
+        el.txBody.innerHTML = '';
+        const sorted = transactions.slice().sort((a,b) => new Date(b.date) - new Date(a.date));
+        el.txCount.textContent = sorted.length;
+        if(sorted.length === 0){
+          el.txBody.innerHTML = '<tr><td colspan="5"><div class="no-data">Belum ada transaksi</div></td></tr>';
+          return;
+        }
+        for(const tx of sorted){
+          const tr = document.createElement('tr');
+          const dateTd = document.createElement('td');
+          dateTd.textContent = (new Date(tx.date)).toLocaleDateString('id-ID');
+          const descTd = document.createElement('td');
+          descTd.textContent = tx.description;
+          const typeTd = document.createElement('td');
+          typeTd.textContent = tx.type === 'pemasukan' ? 'Pemasukan' : 'Pengeluaran';
+          const amountTd = document.createElement('td');
+          amountTd.textContent = formatRp(tx.amount);
+          amountTd.style.fontWeight = '700';
+          amountTd.style.color = tx.type === 'pemasukan' ? 'var(--success)' : 'var(--danger)';
+
+          const actionsTd = document.createElement('td');
+          actionsTd.className = 'actions';
+          const delBtn = document.createElement('button');
+          delBtn.className = 'btn secondary';
+          delBtn.textContent = 'Hapus';
+          delBtn.onclick = () => {
+            if(!confirm('Hapus transaksi ini?')) return;
+            deleteTransaction(tx.id);
+          };
+          actionsTd.appendChild(delBtn);
+
+          if(tx.studentId){
+            const infoBtn = document.createElement('button');
+            infoBtn.className = 'btn';
+            infoBtn.textContent = 'Siswa';
+            infoBtn.onclick = () => {
+              const s = students.find(s=>s.id===tx.studentId);
+              if(s) alert('Transaksi terkait siswa: ' + s.name);
+              else alert('Data siswa tidak ditemukan');
+            };
+            actionsTd.appendChild(infoBtn);
+          }
+
+          tr.appendChild(dateTd);
+          tr.appendChild(descTd);
+          tr.appendChild(typeTd);
+          tr.appendChild(amountTd);
+          tr.appendChild(actionsTd);
+          el.txBody.appendChild(tr);
+        }
+      }
+
+      function renderStudents(){
+        el.studentsList.innerHTML = '';
+        if(students.length === 0){
+          el.studentsList.innerHTML = '<div class="no-data">Belum ada data siswa. Tambahkan siswa baru.</div>';
+          return;
+        }
+        for(const s of students){
+          const div = document.createElement('div');
+          div.className = 'student';
+          const info = document.createElement('div');
+          info.className = 'info';
+          const name = document.createElement('div');
+          name.className = 'name';
+          name.textContent = s.name;
+          const detail = document.createElement('div');
+          detail.className = 'detail';
+          const paid = Number(s.paidAmount || 0);
+          const due = Number(s.dueAmount || 0);
+          detail.textContent = `Terbayar: ${formatRp(paid)} • Sisa: ${formatRp(Math.max(0, due - paid))}`;
+
+          info.appendChild(name);
+          info.appendChild(detail);
+
+          const actions = document.createElement('div');
+          actions.style.display = 'flex';
+          actions.style.gap = '8px';
+          actions.style.alignItems = 'center';
+
+          const payBtn = document.createElement('button');
+          payBtn.className = 'btn';
+          payBtn.textContent = 'Tambah Bayar';
+          payBtn.onclick = () => promptStudentPayment(s.id);
+
+          const editBtn = document.createElement('button');
+          editBtn.className = 'btn secondary';
+          editBtn.textContent = 'Edit';
+          editBtn.onclick = () => editStudent(s.id);
+
+          const delBtn = document.createElement('button');
+          delBtn.className = 'btn danger';
+          delBtn.textContent = 'Hapus';
+          delBtn.onclick = () => {
+            if(!confirm('Hapus siswa ini? Transaksi terkait tidak akan dihapus otomatis.')) return;
+            deleteStudent(s.id);
+          };
+
+          actions.appendChild(payBtn);
+          actions.appendChild(editBtn);
+          actions.appendChild(delBtn);
+
+          div.appendChild(info);
+          div.appendChild(actions);
+
+          el.studentsList.appendChild(div);
+        }
+      }
+
+      // CRUD
+      function addTransaction({date, description, amount, type, studentId}){
+        const tx = {
+          id: id(),
+          date: date,
+          description,
+          amount: Number(amount),
+          type,
+          studentId: studentId || null,
+          createdAt: new Date().toISOString()
+        };
+        transactions.push(tx);
+        saveAll();
+        renderAll();
+      }
+
+      function deleteTransaction(txId){
+        const idx = transactions.findIndex(t => t.id === txId);
+        if(idx === -1) return;
+        const tx = transactions[idx];
+        // if linked to student, revert paidAmount if pemasukan
+        if(tx.studentId && tx.type === 'pemasukan'){
+          const s = students.find(s=>s.id===tx.studentId);
+          if(s){
+            s.paidAmount = Math.max(0, Number(s.paidAmount || 0) - Number(tx.amount));
+          }
+        }
+        transactions.splice(idx,1);
+        saveAll();
+        renderAll();
+      }
+
+      function clearAll(){
+        if(!confirm('Hapus semua transaksi dan siswa? Tindakan ini tidak dapat dibatalkan.')) return;
+        transactions = [];
+        students = [];
+        saveAll();
+        renderAll();
+      }
+
+      function addStudent({name, dueAmount}){
+        const s = {
+          id: id(),
+          name: String(name).trim(),
+          dueAmount: Number(dueAmount) || 0,
+          paidAmount: 0,
+          createdAt: new Date().toISOString()
+        };
+        students.push(s);
+        saveAll();
+        renderAll();
+      }
+
+      function deleteStudent(studentId){
+        const idx = students.findIndex(s=>s.id===studentId);
+        if(idx===-1) return;
+        // Optionally keep transactions; user warned earlier
+        students.splice(idx,1);
+        saveAll();
+        renderAll();
+      }
+
+      function editStudent(studentId){
+        const s = students.find(x=>x.id===studentId);
+        if(!s) return;
+        const newName = prompt('Nama siswa:', s.name);
+        if(newName === null) return;
+        const newDueRaw = prompt('Jumlah iuran (Rp):', s.dueAmount);
+        if(newDueRaw === null) return;
+        const newDue = Number(newDueRaw) || 0;
+        s.name = String(newName).trim();
+        s.dueAmount = newDue;
+        saveAll();
+        renderAll();
+      }
+
+      function promptStudentPayment(studentId){
+        const s = students.find(x=>x.id===studentId);
+        if(!s) return alert('Siswa tidak ditemukan');
+        const remaining = Math.max(0, Number(s.dueAmount) - Number(s.paidAmount || 0));
+        const amountRaw = prompt(`Masukkan jumlah pembayaran untuk ${s.name} (sisa ${formatRp(remaining)}):`, remaining>0?remaining:'0');
+        if(amountRaw === null) return;
+        const amount = Number(amountRaw);
+        if(!amount || amount <= 0) return alert('Jumlah tidak valid');
+        // create pemasukan transaction and update student paidAmount
+        s.paidAmount = Number(s.paidAmount || 0) + amount;
+        addTransaction({
+          date: new Date().toISOString().slice(0,10),
+          description: 'Iuran - ' + s.name,
+          amount,
+          type: 'pemasukan',
+          studentId: s.id
+        });
+        saveAll(); // addTransaction already calls saveAll but ensure sync
+        renderAll();
+      }
+
+      // Event handlers
+      el.formTx.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        const date = el.txDate.value || new Date().toISOString().slice(0,10);
+        const type = el.txType.value;
+        const description = el.txDesc.value.trim();
+        const amount = Number(el.txAmount.value);
+        if(!description || !amount || amount <= 0) return alert('Lengkapi keterangan dan jumlah yang valid.');
+        addTransaction({date, description, amount, type});
+        el.formTx.reset();
+        setDefaultDate();
+      });
+      el.btnResetForm.addEventListener('click', ()=>{
+        el.formTx.reset();
+        setDefaultDate();
+      });
+
+      el.btnClear.addEventListener('click', ()=>{
+        if(!confirm('Hapus semua transaksi?')) return;
+        transactions = [];
+        saveAll();
+        renderAll();
+      });
+      el.btnExport.addEventListener('click', ()=>{
+        const blob = new Blob([JSON.stringify({transactions},null,2)], {type:'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'transactions_keuangan_kelas_xii_ipa2.json';
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+
+      el.formStudent.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        const name = el.studentName.value.trim();
+        const due = Number(el.studentDue.value) || 0;
+        if(!name) return alert('Masukkan nama siswa');
+        addStudent({name, dueAmount: due});
+        el.formStudent.reset();
+      });
+
+      el.btnExportStudents.addEventListener('click', ()=>{
+        const blob = new Blob([JSON.stringify({students},null,2)], {type:'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'students_keuangan_kelas_xii_ipa2.json';
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+
+      el.btnResetStudents.addEventListener('click', ()=>{
+        if(!confirm('Reset semua data siswa?')) return;
+        students = [];
+        saveAll();
+        renderAll();
+      });
+
+      // Helpers
+      function setDefaultDate(){
+        const today = new Date().toISOString().slice(0,10);
+        el.txDate.value = today;
+      }
+
+      function renderAll(){
+        renderSummary();
+        renderTransactions();
+        renderStudents();
+      }
+
+      // Initialize with sensible defaults if empty
+      function seedIfEmpty(){
+        if(!localStorage.getItem(LS_KEYS.TRANSACTIONS) && !localStorage.getItem(LS_KEYS.STUDENTS)){
+          // Provide minimal example data (optional) — keep empty for class usage
+          const nowDate = new Date().toISOString().slice(0,10);
+          students = [
+            {id: id(), name: 'Andi', dueAmount: 100000, paidAmount: 50000, createdAt: new Date().toISOString()},
+            {id: id(), name: 'Siti', dueAmount: 100000, paidAmount: 100000, createdAt: new Date().toISOString()}
+          ];
+          transactions = [
+            {id:id(), date: nowDate, description: 'Iuran - Andi', amount:50000, type:'pemasukan', studentId: students[0].id, createdAt:new Date().toISOString()},
+            {id:id(), date: nowDate, description: 'Iuran - Siti', amount:100000, type:'pemasukan', studentId: students[1].id, createdAt:new Date().toISOString()},
+            {id:id(), date: nowDate, description: 'Beli alat tulis', amount:30000, type:'pengeluaran', studentId:null, createdAt:new Date().toISOString()}
+          ];
+          saveAll();
+        }
+      }
+
+      // On load
+      loadAll();
+      seedIfEmpty();
+      setDefaultDate();
+      renderAll();
+
+      // expose to window for debug (optional)
+      window.KK = {
+        get transactions(){ return transactions },
+        get students(){ return students },
+        saveAll,
+        loadAll,
+        addTransaction,
+        addStudent
+      };
+    })();
+  </script>
+</body>
+</html>
